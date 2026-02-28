@@ -55,7 +55,6 @@
 
         #selection-notice { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5); background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; text-align: center; visibility: hidden; opacity: 0; transition: 0.5s; width: 85%; max-width: 400px; }
         #selection-notice.show { visibility: visible; opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .confetti-icon { font-size: 50px; display: block; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -63,12 +62,12 @@
 <div id="custom-alert">⚠️ Please complete this field!</div>
 
 <div id="selection-notice">
-    <span class="confetti-icon">🎯</span>
-    <h2 style="color: var(--success);">Excellent!</h2>
+    <span style="font-size: 50px;">🌟</span>
+    <h2 style="color: var(--success);">Congratulations!</h2>
     <p id="sel-text" style="font-weight: 700; margin: 10px 0; font-size: 1.1rem;"></p>
-    <p>Your Business Planning is Approved!</p>
-    <p style="font-weight: 700; color: var(--primary); font-size: 1.2rem; background: #eee; padding: 8px; border-radius: 10px; margin: 10px 0;">[ Ready to Start ] 🚀</p>
-    <button class="btn" onclick="closeNotice()" style="width: 100%; margin-top: 15px;">Continue</button>
+    <p>You are selected for the</p>
+    <p style="font-weight: 700; color: var(--primary); font-size: 1.2rem; background: #eee; padding: 10px; border-radius: 12px; margin: 12px 0;">[ Life Changing Part 1-2 ] 🎓</p>
+    <button class="btn" onclick="closeNotice()" style="width: 100%; margin-top: 15px; background: var(--success); color: white;">Proceed</button>
 </div>
 
 <div class="container">
@@ -125,35 +124,29 @@
 </div>
 
 <script>
+    // আপনার নতুন Apps Script URL এখানে আপডেট করা হয়েছে
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOyx0GCRfHKqSOR3prDt_dc4oUd7z226eqVPdeC3LUjBz6KZL7fTl-QXT0WeM7Em8nHQ/exec";
+    
     let currentLang = 'en';
     let currentIdx = 0;
     let userAnswers = [];
 
     const translations = {
-        en: { 
-            title: "Business Planning", start: "START ASSESSMENT", name: "FULL NAME", mentor: "MENTOR NAME", 
-            next: "NEXT", finish: "FINISH", alertName: "Please enter Name!", alertMentor: "Please enter Mentor!", 
-            alertQuiz: "Select an answer!", back: "BACK TO MENTOR", res: "Final Result"
-        },
-        bn: { 
-            title: "বিজনেস প্ল্যানিং", start: "শুরু করুন", name: "আপনার নাম", mentor: "মেন্টরের নাম", 
-            next: "পরবর্তী", finish: "শেষ করুন", alertName: "আপনার নাম লিখুন!", alertMentor: "মেন্টরের নাম লিখুন!", 
-            alertQuiz: "একটি উত্তর বেছে নিন!", back: "মেন্টরের কাছে ফিরে যান", res: "ফলাফল"
-        }
+        en: { title: "Business Planning", start: "START ASSESSMENT", name: "FULL NAME", mentor: "MENTOR NAME", next: "NEXT", finish: "FINISH", alertName: "Enter Name!", alertMentor: "Enter Mentor!", alertQuiz: "Pick an answer!", back: "BACK TO MENTOR", res: "Final Result" },
+        bn: { title: "বিজনেস প্ল্যানিং", start: "শুরু করুন", name: "আপনার নাম", mentor: "মেন্টরের নাম", next: "পরবর্তী", finish: "শেষ করুন", alertName: "নাম লিখুন!", alertMentor: "মেন্টরের নাম লিখুন!", alertQuiz: "উত্তর বেছে নিন!", back: "মেন্টরের কাছে ফিরে যান", res: "ফলাফল" }
     };
 
     const quizData = [
         { q_en: "1. CC comes from", q_bn: "১. সিসি (CC) আসে মূলত-", a_en: ["Using Products", "Retailing Products", "Both of the above"], a_bn: ["পণ্য ব্যবহারের মাধ্যমে", "পণ্য বিক্রির মাধ্যমে", "উপরের উভয়ই"], ans: 2 },
-        { q_en: "2. Amount in 2cc Business Transaction", q_bn: "২. ২ সিসি বিজনেস ট্রানজিশনের পরিমাণ-", a_en: ["58320 in MRP", "55547 in PC", "Both 'a' & 'b'"], a_bn: ["৫৮৩২০ (MRP)", "৫৫৫৪৭ (PC)", "উভয় 'a' ও 'b'"], ans: 2 },
-        { q_en: "3. Why 2cc in 'Fast Track' is important?", q_bn: "৩. 'ফাস্ট ট্র্যাকে' ২ সিসি করা কেন গুরুত্বপূর্ণ?", a_en: ["Mentorship of Founder", "Gateway to International Business", "Make Passive Income", "All of them"], a_bn: ["ফাউন্ডারের মেন্টরশিপ", "আন্তর্জাতিক ব্যবসার সুযোগ", "প্যাসিভ ইনকাম শুরু করা", "সবগুলোই"], ans: 3 },
-        { q_en: "4. I'm planning for 2cc in", q_bn: "৪. আমি ২ সিসি করার পরিকল্পনা করছি-", a_en: ["Fast Track", "Medium Track", "Slow Track"], a_bn: ["ফাস্ট ট্র্যাক", "মিডিয়াম ট্র্যাক", "স্লো ট্র্যাক"], ans: 0 },
+        { q_en: "2. What's the amount in 2cc Business Transaction", q_bn: "২. ২ সিসি বিজনেস ট্রানজিশনের পরিমাণ-", a_en: ["58320 in MRP", "55547 in PC", "Both 'a' & 'b'"], a_bn: ["৫৮৩২০ (MRP)", "৫৫৫৪৭ (PC)", "উভয় 'a' ও 'b'"], ans: 2 },
+        { q_en: "3. Why 2cc in 'Fast Track' is important?", q_bn: "৩. 'ফাস্ট ট্র্যাকে' ২ সিসি করা কেন গুরুত্বপূর্ণ?", a_en: ["Mentorship of Founder", "Gateway to International Business", "Make Passive Income", "all of them"], a_bn: ["ফাউন্ডারের মেন্টরশিপ", "আন্তর্জাতিক ব্যবসার সুযোগ", "প্যাসিভ ইনকাম", "সবগুলোই"], ans: 3 },
+        { q_en: "4. I'm planning for 2cc in", q_bn: "৪. আমি ২ সিসি করার পরিকল্পনা করছি-", a_en: ["Fast Track", "Medium Track", "Slow Track"], a_bn: ["ফাস্ট ট্র্যাক", "মিডিয়াম ট্র্যাক", "স্লো ট্র্যাক"], ans: "dynamic" },
         { q_en: "5. What's you plan for 2cc business?", q_bn: "৫. ২ সিসি বিজনেসের জন্য আপনার পরিকল্পনা কী?", type: "written" },
-        { q_en: "6. Growth Mindset thinks", q_bn: "৬. গ্রোথ মাইন্ডসেট সম্পন্ন ব্যক্তি মনে করে-", a_en: ["I can do it anyhow", "I can learn how", "I accept challenges", "All of the above"], a_bn: ["আমি যেকোনোভাবে পারব", "আমি শিখে নেব", "আমি চ্যালেঞ্জ গ্রহণ করি", "সবগুলোই"], ans: 3 },
-        { q_en: "7. Is doing 2cc is a Risk or Big Opportunity?", q_bn: "৭. ২ সিসি করা কি ঝুঁকি নাকি বড় সুযোগ? ব্যাখ্যা করুন।", type: "written" },
-        { q_en: "8. 2cc business should be", q_bn: "৮. ২ সিসি বিজনেস হতে হয়-", a_en: ["In home country", "Within 2 consecutive months", "Products Turnover", "All of them"], a_bn: ["নিজ দেশে", "টানা ২ মাসের মধ্যে", "প্রোডাক্ট টার্নওভার", "সবগুলোই"], ans: 3 },
+        { q_en: "6. Growth Mindset thinks", q_bn: "৬. গ্রোথ মাইন্ডসেট সম্পন্ন ব্যক্তি মনে করে-", a_en: ["I can do it anyhow", "I can learn how", "I accept challenges", "all of the above"], a_bn: ["আমি যেকোনোভাবে পারব", "আমি শিখে নেব", "আমি চ্যালেঞ্জ গ্রহণ করি", "সবগুলোই"], ans: 3 },
+        { q_en: "7. Is doing 2cc is a Risk or Big Opportunity? Explain.", q_bn: "৭. ২ সিসি করা কি ঝুঁকি নাকি বড় সুযোগ? ব্যাখ্যা করুন।", type: "written" },
+        { q_en: "8. 2cc business should be", q_bn: "৮. ২ সিসি বিজনেস হতে হয়-", a_en: ["in home country", "within 2 consecutive months", "Products Turnover", "all of them"], a_bn: ["নিজ দেশে", "টানা ২ মাসের মধ্যে", "প্রোডাক্ট টার্নওভার", "সবগুলোই"], ans: 1 },
         { q_en: "9. By when you're committed to complete 2cc?", q_bn: "৯. আপনি কতদিনের মধ্যে ২ সিসি শেষ করতে প্রতিশ্রুতিবদ্ধ?", type: "written" },
-        { q_en: "10. Can you ensure Opening business account by 5k billing within 5 days?", q_bn: "১০. ৫ দিনের মধ্যে ৫০০০ টাকার বিলিং করে একাউন্ট ওপেন করা নিশ্চিত করতে পারবেন?", a_en: ["Of course", "I'll try my best"], a_bn: ["অবশ্যই", "আমি আমার সর্বোচ্চ চেষ্টা করব"], ans: 0 }
+        { q_en: "10. Can you ensure Opening business account by 5k billing within 5 days?", q_bn: "১০. ৫ দিনের মধ্যে ৫০০০ টাকার বিলিং করে একাউন্ট ওপেন করা নিশ্চিত করতে পারবেন?", a_en: ["Off course", "I'll try my best", "I can't"], a_bn: ["অবশ্যই", "আমি চেষ্টা করব", "পারব না"], ans: 0 }
     ];
 
     userAnswers = new Array(quizData.length).fill(null);
@@ -162,14 +155,12 @@
         currentLang = lang;
         document.getElementById('en-btn').classList.toggle('active', lang === 'en');
         document.getElementById('bn-btn').classList.toggle('active', lang === 'bn');
-        
         document.getElementById('main-title').innerText = translations[lang].title;
         document.getElementById('label-name').innerText = translations[lang].name;
         document.getElementById('label-mentor').innerText = translations[lang].mentor;
         document.getElementById('start-btn').innerText = translations[lang].start;
         document.getElementById('back-mentor').innerText = translations[lang].back;
         document.getElementById('res-title').innerText = translations[lang].res;
-
         if(!document.getElementById('quiz').classList.contains('hidden')) renderQuestion();
     }
 
@@ -181,8 +172,7 @@
     }
 
     function startQuiz() {
-        if(!document.getElementById('userName').value.trim()) return showAlert(translations[currentLang].alertName);
-        if(!document.getElementById('mentorName').value.trim()) return showAlert(translations[currentLang].alertMentor);
+        if(!document.getElementById('userName').value.trim() || !document.getElementById('mentorName').value.trim()) return showAlert(translations[currentLang].alertName);
         document.getElementById('welcome').classList.add('hidden');
         document.getElementById('quiz').classList.remove('hidden');
         renderQuestion();
@@ -194,9 +184,7 @@
         document.getElementById('question').innerText = currentLang === 'en' ? q.q_en : q.q_bn;
         const optBox = document.getElementById('options');
         const txtArea = document.getElementById('text-input-area');
-        
-        optBox.innerHTML = "";
-        txtArea.classList.add('hidden');
+        optBox.innerHTML = ""; txtArea.classList.add('hidden');
 
         if(q.type === "written") {
             txtArea.classList.remove('hidden');
@@ -231,20 +219,32 @@
     function showResult() {
         document.getElementById('quiz').classList.add('hidden');
         document.getElementById('result').classList.remove('hidden');
+        
         let score = 0;
+        let finalAnswersForSheet = []; // শিটে পাঠানোর জন্য উত্তরের লিস্ট
         const revBox = document.getElementById('review-list');
         revBox.innerHTML = "";
 
         userAnswers.forEach((ans, i) => {
             const q = quizData[i];
-            let isCorrect = (q.type === "written") ? true : (ans === q.ans);
+            let isCorrect = false;
+            let displayAnsText = "";
+
+            if(q.type === "written") {
+                isCorrect = true;
+                displayAnsText = ans; // ইউজারের লেখা উত্তর
+            } else {
+                displayAnsText = (currentLang === 'en' ? q.a_en[ans] : q.a_bn[ans]); // সিলেক্ট করা অপশনের টেক্সট
+                if(q.ans === "dynamic" || ans === q.ans) isCorrect = true;
+            }
+
             if(isCorrect) score++;
+            finalAnswersForSheet.push(displayAnsText);
 
             const item = document.createElement('div');
             item.className = "review-item";
             const qTxt = currentLang === 'en' ? q.q_en : q.q_bn;
-            const userChoice = (q.type === "written") ? ans : (currentLang === 'en' ? q.a_en[ans] : q.a_bn[ans]);
-            item.innerHTML = `<b>${qTxt}</b><br><span style="color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">Ans: ${userChoice}</span>`;
+            item.innerHTML = `<b>${qTxt}</b><br><span style="color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">${displayAnsText}</span>`;
             revBox.appendChild(item);
         });
 
@@ -259,8 +259,17 @@
             }, 1000);
         }
         
-        // Google Sheet Integration
-        fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ name: document.getElementById('userName').value, mentor: document.getElementById('mentorName').value, score: pct + "%", answers: userAnswers }) });
+        // গুগল শিটে ডেটা পাঠানো
+        fetch(SCRIPT_URL, { 
+            method: 'POST', 
+            mode: 'no-cors', 
+            body: JSON.stringify({ 
+                name: document.getElementById('userName').value, 
+                mentor: document.getElementById('mentorName').value, 
+                percentage: pct + "%", 
+                answers: finalAnswersForSheet // এখানে অপশনের ইনডেক্স না পাঠিয়ে সরাসরি টেক্সট পাঠানো হচ্ছে
+            }) 
+        });
     }
 
     function closeNotice() { document.getElementById('selection-notice').classList.remove('show'); }
