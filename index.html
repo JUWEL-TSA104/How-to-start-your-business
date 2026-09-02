@@ -63,8 +63,9 @@
 
 <div id="selection-notice">
     <span style="font-size: 50px;">🌟</span>
-    <h2 style="color: var(--success);">Congratulations!</h2>
-    <p id="sel-text" style="font-weight: 700; margin: 10px 0; font-size: 1.1rem;"></p>
+    <h2 style="color: var(--success); font-size: 1.4rem;">Congratulations! 🎉 <span id="popup-score" style="color: var(--primary); font-size: 1.4rem;"></span></h2>
+    <p id="sel-text" style="font-weight: 700; margin-top: 10px; font-size: 1.1rem; color: var(--text);"></p>
+    <p id="mentor-text" style="font-weight: 600; color: #636e72; margin-bottom: 10px; font-size: 0.95rem;"></p>
     <p>You are selected for the</p>
     <p style="font-weight: 700; color: var(--primary); font-size: 1.2rem; background: #eee; padding: 10px; border-radius: 12px; margin: 12px 0;">[ Life Changing Part 1-2 ] 🎓</p>
     <button class="btn" onclick="closeNotice()" style="width: 100%; margin-top: 15px; background: var(--success); color: white;">Proceed</button>
@@ -124,7 +125,6 @@
 </div>
 
 <script>
-    // আপনার নতুন Apps Script URL এখানে আপডেট করা হয়েছে
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOyx0GCRfHKqSOR3prDt_dc4oUd7z226eqVPdeC3LUjBz6KZL7fTl-QXT0WeM7Em8nHQ/exec";
     
     let currentLang = 'en';
@@ -221,7 +221,7 @@
         document.getElementById('result').classList.remove('hidden');
         
         let score = 0;
-        let finalAnswersForSheet = []; // শিটে পাঠানোর জন্য উত্তরের লিস্ট
+        let finalAnswersForSheet = [];
         const revBox = document.getElementById('review-list');
         revBox.innerHTML = "";
 
@@ -232,9 +232,9 @@
 
             if(q.type === "written") {
                 isCorrect = true;
-                displayAnsText = ans; // ইউজারের লেখা উত্তর
+                displayAnsText = ans;
             } else {
-                displayAnsText = (currentLang === 'en' ? q.a_en[ans] : q.a_bn[ans]); // সিলেক্ট করা অপশনের টেক্সট
+                displayAnsText = (currentLang === 'en' ? q.a_en[ans] : q.a_bn[ans]);
                 if(q.ans === "dynamic" || ans === q.ans) isCorrect = true;
             }
 
@@ -254,12 +254,13 @@
 
         if(pct >= 50) {
             setTimeout(() => {
+                document.getElementById('popup-score').innerText = pct + "%";
                 document.getElementById('sel-text').innerText = "Dear, " + document.getElementById('userName').value;
+                document.getElementById('mentor-text').innerText = "Mentor: " + document.getElementById('mentorName').value;
                 document.getElementById('selection-notice').classList.add('show');
             }, 1000);
         }
         
-        // গুগল শিটে ডেটা পাঠানো
         fetch(SCRIPT_URL, { 
             method: 'POST', 
             mode: 'no-cors', 
@@ -267,7 +268,7 @@
                 name: document.getElementById('userName').value, 
                 mentor: document.getElementById('mentorName').value, 
                 percentage: pct + "%", 
-                answers: finalAnswersForSheet // এখানে অপশনের ইনডেক্স না পাঠিয়ে সরাসরি টেক্সট পাঠানো হচ্ছে
+                answers: finalAnswersForSheet 
             }) 
         });
     }
